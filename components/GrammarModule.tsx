@@ -1,7 +1,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { LanguageLevel, GrammarPoint } from '../types';
-import { generateGrammar, playTTS } from '../geminiService';
+import { generateGrammar, playAudio } from '../geminiService';
 
 const levelTopics: Record<LanguageLevel, string[]> = {
   [LanguageLevel.A1]: ["Être", "Avoir", "Articles"],
@@ -43,7 +43,7 @@ const GrammarModule: React.FC<{ level: LanguageLevel }> = ({ level }) => {
               <h4 className="text-xs font-black uppercase text-slate-400 tracking-widest">Exemples</h4>
               {p.examples.map((ex, j) => (
                 <div key={j} className="bg-slate-50 p-4 rounded-xl flex items-start space-x-3">
-                  <button onClick={() => playTTS(ex.sentence)} className="text-blue-600 mt-1">▶️</button>
+                  <button onClick={() => playAudio(ex.sentence)} className="text-blue-600 mt-1">▶️</button>
                   <div>
                     <p className="font-bold text-slate-800">{ex.sentence}</p>
                     <p className="text-sm text-slate-500">{ex.translation}</p>

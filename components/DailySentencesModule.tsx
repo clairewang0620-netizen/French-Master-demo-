@@ -1,7 +1,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { DailySentence } from '../types';
-import { generateDailySentences, playTTS } from '../geminiService';
+import { generateDailySentences, playAudio } from '../geminiService';
 
 const categories = [
   "self-intro", 
@@ -67,7 +67,7 @@ const DailySentencesModule: React.FC = () => {
         <div className="space-y-4">
           {sentences.map((s) => (
             <div key={s.id} className="bg-white p-5 rounded-2xl border border-slate-100 shadow-sm flex items-start space-x-4">
-              <button onClick={() => playTTS(s.sentence)} className="mt-1 bg-blue-50 text-blue-600 p-3 rounded-full">
+              <button onClick={() => playAudio(s.sentence)} className="mt-1 bg-blue-50 text-blue-600 p-3 rounded-full">
                 🔊
               </button>
               <div className="flex-1">

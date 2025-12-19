@@ -1,7 +1,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { AppState, VocabularyWord } from '../types';
-import { playTTS } from '../geminiService';
+import { playAudio } from '../geminiService';
 
 const DictationModule: React.FC<{ state: AppState }> = ({ state }) => {
   const [input, setInput] = useState('');
@@ -52,7 +52,7 @@ const DictationModule: React.FC<{ state: AppState }> = ({ state }) => {
         <p className="text-3xl font-black text-slate-800 mb-10">{word.meaning}</p>
         
         <button 
-          onClick={() => playTTS(word.word)}
+          onClick={() => playAudio(word.word, word.audioUrl)}
           className="bg-blue-600 text-white w-24 h-24 rounded-full flex items-center justify-center shadow-2xl shadow-blue-300 mx-auto hover:scale-110 active:scale-95 transition-all"
         >
           <span className="text-4xl">🔊</span>

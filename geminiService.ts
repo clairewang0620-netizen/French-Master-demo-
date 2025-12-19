@@ -5,9 +5,21 @@ import { LanguageLevel } from "./types";
 const ai = new GoogleGenAI({ apiKey: process.env.API_KEY || "" });
 
 /**
- * Enhanced French TTS Utility
+ * Universal Audio Player
+ * Priority: 1. Provided URL (HTML Audio), 2. Gemini TTS Fallback
  */
-export const playTTS = async (text: string) => {
+export const playAudio = async (text: string, url?: string) => {
+  if (url) {
+    const audio = new Audio(url);
+    try {
+      await audio.play();
+      return;
+    } catch (error) {
+      console.warn("Static audio playback failed, falling back to TTS", error);
+    }
+  }
+  
+  // Gemini TTS Fallback (Standardized for high quality)
   try {
     const response = await ai.models.generateContent({
       model: "gemini-2.5-flash-preview-tts",
@@ -16,7 +28,7 @@ export const playTTS = async (text: string) => {
         responseModalities: [Modality.AUDIO],
         speechConfig: {
           voiceConfig: {
-            prebuiltVoiceConfig: { voiceName: 'Kore' }, // Kore has a clear, standard French accent
+            prebuiltVoiceConfig: { voiceName: 'Kore' },
           },
         },
       },
@@ -45,10 +57,10 @@ export const playTTS = async (text: string) => {
     source.connect(audioContext.destination);
     source.start();
   } catch (error) {
-    console.warn("Gemini TTS Unavailable, switching to Native Web Speech API", error);
+    console.error("Gemini TTS Error", error);
+    // Final fallback: Browser native Speech API
     const utterance = new SpeechSynthesisUtterance(text);
     utterance.lang = 'fr-FR';
-    utterance.rate = 0.9;
     window.speechSynthesis.speak(utterance);
   }
 };

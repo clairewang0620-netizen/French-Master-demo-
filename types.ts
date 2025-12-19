@@ -10,6 +10,7 @@ export enum LanguageLevel {
 export interface Example {
   sentence: string;
   translation: string;
+  audioUrl?: string;
 }
 
 export interface VocabularyWord {
@@ -21,6 +22,7 @@ export interface VocabularyWord {
   level: LanguageLevel;
   known: boolean;
   isStrengthen: boolean;
+  audioUrl?: string;
 }
 
 export interface DailySentence {
@@ -29,6 +31,7 @@ export interface DailySentence {
   phonetic: string;
   meaning: string;
   category: string;
+  audioUrl?: string;
 }
 
 export interface GrammarPoint {

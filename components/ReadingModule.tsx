@@ -1,7 +1,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { LanguageLevel, Article } from '../types';
-import { generateArticle, playTTS } from '../geminiService';
+import { generateArticle, playAudio } from '../geminiService';
 
 const ReadingModule: React.FC<{ level: LanguageLevel }> = ({ level }) => {
   const [article, setArticle] = useState<Article | null>(null);
@@ -27,7 +27,7 @@ const ReadingModule: React.FC<{ level: LanguageLevel }> = ({ level }) => {
         <h2 className="text-2xl font-black text-slate-900 leading-tight mb-4">{article?.title}</h2>
         <div className="flex space-x-2">
            <button 
-            onClick={() => playTTS(article?.content || '')}
+            onClick={() => playAudio(article?.content || '')}
             className="flex-1 bg-blue-600 text-white py-3 rounded-xl font-bold flex justify-center items-center space-x-2"
           >
             <span>🔊 Écouter tout</span>
@@ -65,7 +65,7 @@ const ReadingModule: React.FC<{ level: LanguageLevel }> = ({ level }) => {
           {article?.keywords.map(kw => (
             <button 
               key={kw}
-              onClick={() => playTTS(kw)}
+              onClick={() => playAudio(kw)}
               className="px-4 py-2 bg-white rounded-full border border-slate-200 text-sm font-medium text-slate-700 hover:border-blue-300"
             >
               {kw}

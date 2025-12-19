@@ -1,168 +1,142 @@
 
 import React, { useState, useEffect } from 'react';
 import { VocabularyWord, LanguageLevel } from '../types';
-import { generateVocabulary, playTTS } from '../geminiService';
+import { generateVocabulary, playAudio } from '../geminiService';
 
 const PREDEFINED_A1_WORDS: Omit<VocabularyWord, 'id' | 'level' | 'known' | 'isStrengthen'>[] = [
   {
     word: "bonjour",
     phonetic: "bɔ̃.ʒuʁ",
     meaning: "你好",
+    audioUrl: "https://ttsreader.com/player/mp3?text=bonjour&lang=fr",
     examples: [
-      { sentence: "Bonjour, comment ça va ?", translation: "你好，你怎么样？" },
-      { sentence: "Je dis bonjour à mes voisins.", translation: "我向邻居打招呼。" }
+      { 
+        sentence: "Bonjour, comment ça va ?", 
+        translation: "你好，你怎么样？",
+        audioUrl: "https://ttsreader.com/player/mp3?text=Bonjour,%20comment%20ça%20va%20?&lang=fr"
+      },
+      { 
+        sentence: "Je dis bonjour à mes voisins.", 
+        translation: "我向邻居打招呼。",
+        audioUrl: "https://ttsreader.com/player/mp3?text=Je%20dis%20bonjour%20à%20mes%20voisins.&lang=fr"
+      }
     ]
   },
   {
     word: "merci",
     phonetic: "mɛʁ.si",
     meaning: "谢谢",
+    audioUrl: "https://ttsreader.com/player/mp3?text=merci&lang=fr",
     examples: [
-      { sentence: "Merci pour votre aide.", translation: "谢谢你的帮助。" }
+      { 
+        sentence: "Merci pour votre aide.", 
+        translation: "谢谢你的帮助。",
+        audioUrl: "https://ttsreader.com/player/mp3?text=Merci%20pour%20votre%20aide.&lang=fr"
+      }
     ]
   },
   {
     word: "pomme",
     phonetic: "pɔm",
     meaning: "苹果",
+    audioUrl: "https://ttsreader.com/player/mp3?text=pomme&lang=fr",
     examples: [
-      { sentence: "Je mange une pomme.", translation: "我吃一个苹果。" }
+      { 
+        sentence: "Je mange une pomme.", 
+        translation: "我吃一个苹果。",
+        audioUrl: "https://ttsreader.com/player/mp3?text=Je%20mange%20une%20pomme.&lang=fr"
+      }
     ]
   },
   {
     word: "chat",
     phonetic: "ʃa",
     meaning: "猫",
+    audioUrl: "https://ttsreader.com/player/mp3?text=chat&lang=fr",
     examples: [
-      { sentence: "Le chat dort sur le canapé.", translation: "猫在沙发上睡觉。" }
+      { 
+        sentence: "Le chat dort sur le canapé.", 
+        translation: "猫在沙发上睡觉。",
+        audioUrl: "https://ttsreader.com/player/mp3?text=Le%20chat%20dort%20sur%20le%20canapé.&lang=fr"
+      }
     ]
   },
   {
     word: "chien",
     phonetic: "ʃjɛ̃",
     meaning: "狗",
+    audioUrl: "https://ttsreader.com/player/mp3?text=chien&lang=fr",
     examples: [
-      { sentence: "Le chien court dans le jardin.", translation: "狗在花园里跑。" }
+      { 
+        sentence: "Le chien court dans le jardin.", 
+        translation: "狗在花园里跑。",
+        audioUrl: "https://ttsreader.com/player/mp3?text=Le%20chien%20court%20dans%20le%20jardin.&lang=fr"
+      }
     ]
   },
   {
     word: "maison",
     phonetic: "mɛ.zɔ̃",
     meaning: "房子",
+    audioUrl: "https://ttsreader.com/player/mp3?text=maison&lang=fr",
     examples: [
-      { sentence: "Ma maison est grande.", translation: "我的房子很大。" }
+      { 
+        sentence: "Ma maison est grande.", 
+        translation: "我的房子很大。",
+        audioUrl: "https://ttsreader.com/player/mp3?text=Ma%20maison%20est%20grande.&lang=fr"
+      }
     ]
   },
   {
     word: "eau",
     phonetic: "o",
     meaning: "水",
+    audioUrl: "https://ttsreader.com/player/mp3?text=eau&lang=fr",
     examples: [
-      { sentence: "Je bois de l'eau.", translation: "我喝水。" }
+      { 
+        sentence: "Je bois de l'eau.", 
+        translation: "我喝水。",
+        audioUrl: "https://ttsreader.com/player/mp3?text=Je%20bois%20de%20l'eau.&lang=fr"
+      }
     ]
   },
   {
     word: "fromage",
     phonetic: "fʁɔ.maʒ",
     meaning: "奶酪",
+    audioUrl: "https://ttsreader.com/player/mp3?text=fromage&lang=fr",
     examples: [
-      { sentence: "Le fromage est délicieux.", translation: "奶酪很好吃。" }
+      { 
+        sentence: "Le fromage est délicieux.", 
+        translation: "奶酪很好吃。",
+        audioUrl: "https://ttsreader.com/player/mp3?text=Le%20fromage%20est%20délicieux.&lang=fr"
+      }
     ]
   },
   {
     word: "pain",
     phonetic: "pɛ̃",
     meaning: "面包",
+    audioUrl: "https://ttsreader.com/player/mp3?text=pain&lang=fr",
     examples: [
-      { sentence: "Je mange du pain le matin.", translation: "我早上吃面包。" }
+      { 
+        sentence: "Je mange du pain le matin.", 
+        translation: "我早上吃面包。",
+        audioUrl: "https://ttsreader.com/player/mp3?text=Je%20mange%20du%20pain%20le%20matin.&lang=fr"
+      }
     ]
   },
   {
     word: "voiture",
     phonetic: "vwa.tyʁ",
     meaning: "汽车",
+    audioUrl: "https://ttsreader.com/player/mp3?text=voiture&lang=fr",
     examples: [
-      { sentence: "La voiture est rouge.", translation: "汽车是红色的。" }
-    ]
-  },
-  {
-    word: "livre",
-    phonetic: "livʁ",
-    meaning: "书",
-    examples: [
-      { sentence: "Je lis un livre intéressant.", translation: "我在读一本有趣的书。" }
-    ]
-  },
-  {
-    word: "école",
-    phonetic: "e.kɔl",
-    meaning: "学校",
-    examples: [
-      { sentence: "Les enfants vont à l'école.", translation: "孩子们去上学。" }
-    ]
-  },
-  {
-    word: "travail",
-    phonetic: "tʁa.vaj",
-    meaning: "工作",
-    examples: [
-      { sentence: "Je vais au travail en bus.", translation: "我坐公交去上班。" }
-    ]
-  },
-  {
-    word: "famille",
-    phonetic: "fa.mij",
-    meaning: "家庭",
-    examples: [
-      { sentence: "Ma famille est grande.", translation: "我的家庭很大。" }
-    ]
-  },
-  {
-    word: "amour",
-    phonetic: "a.muʁ",
-    meaning: "爱情",
-    examples: [
-      { sentence: "L'amour est important.", translation: "爱情很重要。" }
-    ]
-  },
-  {
-    word: "soleil",
-    phonetic: "sɔ.lɛj",
-    meaning: "太阳",
-    examples: [
-      { sentence: "Le soleil brille.", translation: "太阳在照耀。" }
-    ]
-  },
-  {
-    word: "lune",
-    phonetic: "lyn",
-    meaning: "月亮",
-    examples: [
-      { sentence: "La lune est pleine ce soir.", translation: "今晚是满月。" }
-    ]
-  },
-  {
-    word: "ville",
-    phonetic: "vil",
-    meaning: "城市",
-    examples: [
-      { sentence: "La ville est très animée.", translation: "城市非常热闹。" }
-    ]
-  },
-  {
-    word: "campagne",
-    phonetic: "kɑ̃.paɲ",
-    meaning: "乡村",
-    examples: [
-      { sentence: "J'aime me promener à la campagne.", translation: "我喜欢在乡村散步。" }
-    ]
-  },
-  {
-    word: "ordinateur",
-    phonetic: "ɔʁ.di.na.tœʁ",
-    meaning: "电脑",
-    examples: [
-      { sentence: "J'utilise mon ordinateur pour travailler.", translation: "我用电脑工作。" }
+      { 
+        sentence: "La voiture est rouge.", 
+        translation: "汽车是红色的。",
+        audioUrl: "https://ttsreader.com/player/mp3?text=La%20voiture%20est%20rouge.&lang=fr"
+      }
     ]
   }
 ];
@@ -186,7 +160,7 @@ const VocabularyModule: React.FC<Props> = ({ level, onStrengthen, onWordsGenerat
         level: LanguageLevel.A1,
         known: false,
         isStrengthen: false
-      }));
+      })) as VocabularyWord[];
       setWords(formatted);
       onWordsGenerated(formatted);
       return;
@@ -275,7 +249,7 @@ const VocabularyModule: React.FC<Props> = ({ level, onStrengthen, onWordsGenerat
               <p className="text-2xl text-slate-300 font-medium mb-8">{selectedWord.phonetic}</p>
               
               <button 
-                onClick={() => playTTS(selectedWord.word)}
+                onClick={() => playAudio(selectedWord.word, selectedWord.audioUrl)}
                 className="inline-flex items-center space-x-3 bg-blue-600 text-white px-8 py-4 rounded-full font-bold shadow-xl shadow-blue-200 active:scale-95 transition-all"
               >
                 <span className="text-xl">🔊</span>
@@ -295,7 +269,7 @@ const VocabularyModule: React.FC<Props> = ({ level, onStrengthen, onWordsGenerat
                   <p className="font-bold text-slate-800 text-lg mb-2 leading-snug">{ex.sentence}</p>
                   <p className="text-slate-500 mb-4">{ex.translation}</p>
                   <button 
-                    onClick={() => playTTS(ex.sentence)}
+                    onClick={() => playAudio(ex.sentence, ex.audioUrl)}
                     className="flex items-center space-x-2 text-xs font-black text-blue-600 uppercase tracking-wider"
                   >
                     <span>▶️ Lire la phrase</span>
