@@ -1,55 +1,91 @@
-
 <!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>L'Élan Français</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0"
+    />
+    <title>French Master Audio Test</title>
+
+    <!-- 基础样式，避免影响 -->
     <style>
-        body { 
-          font-family: 'Inter', sans-serif; 
-          -webkit-tap-highlight-color: transparent;
-        }
-        .no-scrollbar::-webkit-scrollbar {
-          display: none;
-        }
-        .no-scrollbar {
-          -ms-overflow-style: none;
-          scrollbar-width: none;
-        }
-        @keyframes shake {
-          0%, 100% { transform: translateX(0); }
-          25% { transform: translateX(-8px); }
-          50% { transform: translateX(8px); }
-          75% { transform: translateX(-8px); }
-        }
-        .animate-shake {
-          animation: shake 0.4s cubic-bezier(.36,.07,.19,.97) both;
-        }
-        /* Safe area for mobile devices */
-        .pb-safe {
-          padding-bottom: env(safe-area-inset-bottom);
-        }
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
+          Roboto, Helvetica, Arial, sans-serif;
+        background-color: #f8fafc;
+        color: #0f172a;
+        padding: 24px;
+      }
+
+      h1 {
+        font-size: 20px;
+        margin-bottom: 16px;
+      }
+
+      button {
+        font-size: 18px;
+        padding: 14px 18px;
+        border-radius: 8px;
+        border: none;
+        background-color: #2563eb;
+        color: white;
+        cursor: pointer;
+      }
+
+      button:active {
+        background-color: #1e40af;
+      }
+
+      .hint {
+        margin-top: 20px;
+        font-size: 14px;
+        color: #475569;
+      }
     </style>
-<script type="importmap">
-{
-  "imports": {
-    "react": "https://esm.sh/react@19.0.0",
-    "react-dom": "https://esm.sh/react-dom@19.0.0",
-    "react-dom/client": "https://esm.sh/react-dom@19.0.0/client",
-    "@google/genai": "https://esm.sh/@google/genai@1.3.0",
-    "react-dom/": "https://esm.sh/react-dom@^19.2.3/",
-    "react/": "https://esm.sh/react@^19.2.3/"
-  }
-}
-</script>
-</head>
-<body class="bg-slate-50 text-slate-900">
+  </head>
+
+  <body>
+    <h1>安卓音频最小可行测试</h1>
+
+    <!-- React 挂载点（保留，不影响测试） -->
     <div id="root"></div>
-    <script type="module" src="./index.tsx"></script>
-</body>
+
+    <!-- 音频测试按钮 -->
+    <button id="android-audio-test">
+      点击测试发音（安卓）
+    </button>
+
+    <div class="hint">
+      请使用 <strong>安卓 Chrome 浏览器</strong>，点击按钮后应立即听到法语发音。
+    </div>
+
+    <script>
+      document
+        .getElementById("android-audio-test")
+        .addEventListener("click", function () {
+          try {
+            const audio = new Audio("/audio/a1_word01.mp3");
+            audio.volume = 1;
+            audio.muted = false;
+
+            const playPromise = audio.play();
+
+            if (playPromise !== undefined) {
+              playPromise
+                .then(() => {
+                  console.log("PLAY OK");
+                })
+                .catch((err) => {
+                  console.error("PLAY FAILED", err);
+                  alert("播放失败: " + err.message);
+                });
+            }
+          } catch (e) {
+            console.error("EXCEPTION", e);
+            alert("异常: " + e);
+          }
+        });
+    </script>
+  </body>
 </html>
