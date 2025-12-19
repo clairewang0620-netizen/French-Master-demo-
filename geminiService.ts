@@ -110,10 +110,14 @@ export const generateDailySentences = async (category: string) => {
   return JSON.parse(response.text);
 };
 
-export const generateGrammar = async (level: LanguageLevel) => {
+export const generateGrammar = async (level: LanguageLevel, topics?: string) => {
+    const content = topics 
+      ? `Explain 3 essential French grammar rules for ${level} level focusing on: ${topics}. Explanations must be in Chinese and very clear. Provide 3 examples per rule.`
+      : `Explain 3 essential French grammar rules for ${level} level. Explanations must be in Chinese and very clear. Provide 3 examples per rule.`;
+
     const response = await ai.models.generateContent({
       model: "gemini-3-flash-preview",
-      contents: `Explain 3 essential French grammar rules for ${level} level. Explanations must be in Chinese and very clear. Provide 3 examples per rule.`,
+      contents: content,
       config: {
         responseMimeType: "application/json",
         responseSchema: {

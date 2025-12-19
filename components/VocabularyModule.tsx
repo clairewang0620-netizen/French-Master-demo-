@@ -3,6 +3,170 @@ import React, { useState, useEffect } from 'react';
 import { VocabularyWord, LanguageLevel } from '../types';
 import { generateVocabulary, playTTS } from '../geminiService';
 
+const PREDEFINED_A1_WORDS: Omit<VocabularyWord, 'id' | 'level' | 'known' | 'isStrengthen'>[] = [
+  {
+    word: "bonjour",
+    phonetic: "bɔ̃.ʒuʁ",
+    meaning: "你好",
+    examples: [
+      { sentence: "Bonjour, comment ça va ?", translation: "你好，你怎么样？" },
+      { sentence: "Je dis bonjour à mes voisins.", translation: "我向邻居打招呼。" }
+    ]
+  },
+  {
+    word: "merci",
+    phonetic: "mɛʁ.si",
+    meaning: "谢谢",
+    examples: [
+      { sentence: "Merci pour votre aide.", translation: "谢谢你的帮助。" }
+    ]
+  },
+  {
+    word: "pomme",
+    phonetic: "pɔm",
+    meaning: "苹果",
+    examples: [
+      { sentence: "Je mange une pomme.", translation: "我吃一个苹果。" }
+    ]
+  },
+  {
+    word: "chat",
+    phonetic: "ʃa",
+    meaning: "猫",
+    examples: [
+      { sentence: "Le chat dort sur le canapé.", translation: "猫在沙发上睡觉。" }
+    ]
+  },
+  {
+    word: "chien",
+    phonetic: "ʃjɛ̃",
+    meaning: "狗",
+    examples: [
+      { sentence: "Le chien court dans le jardin.", translation: "狗在花园里跑。" }
+    ]
+  },
+  {
+    word: "maison",
+    phonetic: "mɛ.zɔ̃",
+    meaning: "房子",
+    examples: [
+      { sentence: "Ma maison est grande.", translation: "我的房子很大。" }
+    ]
+  },
+  {
+    word: "eau",
+    phonetic: "o",
+    meaning: "水",
+    examples: [
+      { sentence: "Je bois de l'eau.", translation: "我喝水。" }
+    ]
+  },
+  {
+    word: "fromage",
+    phonetic: "fʁɔ.maʒ",
+    meaning: "奶酪",
+    examples: [
+      { sentence: "Le fromage est délicieux.", translation: "奶酪很好吃。" }
+    ]
+  },
+  {
+    word: "pain",
+    phonetic: "pɛ̃",
+    meaning: "面包",
+    examples: [
+      { sentence: "Je mange du pain le matin.", translation: "我早上吃面包。" }
+    ]
+  },
+  {
+    word: "voiture",
+    phonetic: "vwa.tyʁ",
+    meaning: "汽车",
+    examples: [
+      { sentence: "La voiture est rouge.", translation: "汽车是红色的。" }
+    ]
+  },
+  {
+    word: "livre",
+    phonetic: "livʁ",
+    meaning: "书",
+    examples: [
+      { sentence: "Je lis un livre intéressant.", translation: "我在读一本有趣的书。" }
+    ]
+  },
+  {
+    word: "école",
+    phonetic: "e.kɔl",
+    meaning: "学校",
+    examples: [
+      { sentence: "Les enfants vont à l'école.", translation: "孩子们去上学。" }
+    ]
+  },
+  {
+    word: "travail",
+    phonetic: "tʁa.vaj",
+    meaning: "工作",
+    examples: [
+      { sentence: "Je vais au travail en bus.", translation: "我坐公交去上班。" }
+    ]
+  },
+  {
+    word: "famille",
+    phonetic: "fa.mij",
+    meaning: "家庭",
+    examples: [
+      { sentence: "Ma famille est grande.", translation: "我的家庭很大。" }
+    ]
+  },
+  {
+    word: "amour",
+    phonetic: "a.muʁ",
+    meaning: "爱情",
+    examples: [
+      { sentence: "L'amour est important.", translation: "爱情很重要。" }
+    ]
+  },
+  {
+    word: "soleil",
+    phonetic: "sɔ.lɛj",
+    meaning: "太阳",
+    examples: [
+      { sentence: "Le soleil brille.", translation: "太阳在照耀。" }
+    ]
+  },
+  {
+    word: "lune",
+    phonetic: "lyn",
+    meaning: "月亮",
+    examples: [
+      { sentence: "La lune est pleine ce soir.", translation: "今晚是满月。" }
+    ]
+  },
+  {
+    word: "ville",
+    phonetic: "vil",
+    meaning: "城市",
+    examples: [
+      { sentence: "La ville est très animée.", translation: "城市非常热闹。" }
+    ]
+  },
+  {
+    word: "campagne",
+    phonetic: "kɑ̃.paɲ",
+    meaning: "乡村",
+    examples: [
+      { sentence: "J'aime me promener à la campagne.", translation: "我喜欢在乡村散步。" }
+    ]
+  },
+  {
+    word: "ordinateur",
+    phonetic: "ɔʁ.di.na.tœʁ",
+    meaning: "电脑",
+    examples: [
+      { sentence: "J'utilise mon ordinateur pour travailler.", translation: "我用电脑工作。" }
+    ]
+  }
+];
+
 interface Props {
   level: LanguageLevel;
   onStrengthen: (wordId: string) => void;
@@ -14,7 +178,20 @@ const VocabularyModule: React.FC<Props> = ({ level, onStrengthen, onWordsGenerat
   const [loading, setLoading] = useState(false);
   const [selectedWord, setSelectedWord] = useState<VocabularyWord | null>(null);
 
-  const fetchWords = async () => {
+  const fetchWords = async (forceAi = false) => {
+    if (!forceAi && level === LanguageLevel.A1) {
+      const formatted = PREDEFINED_A1_WORDS.map((w, idx) => ({
+        ...w,
+        id: `static-a1-${idx}`,
+        level: LanguageLevel.A1,
+        known: false,
+        isStrengthen: false
+      }));
+      setWords(formatted);
+      onWordsGenerated(formatted);
+      return;
+    }
+
     setLoading(true);
     try {
       const data = await generateVocabulary(level);
@@ -77,10 +254,10 @@ const VocabularyModule: React.FC<Props> = ({ level, onStrengthen, onWordsGenerat
       </div>
 
       <button 
-        onClick={fetchWords}
+        onClick={() => fetchWords(true)}
         className="w-full mt-8 py-4 border-2 border-dashed border-slate-200 rounded-2xl text-slate-400 font-bold hover:text-blue-600 hover:border-blue-200 transition-all"
       >
-        + Charger plus de mots
+        + Charger plus de mots via AI
       </button>
 
       {selectedWord && (

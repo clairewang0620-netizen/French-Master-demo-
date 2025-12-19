@@ -3,7 +3,29 @@ import React, { useState, useEffect } from 'react';
 import { DailySentence } from '../types';
 import { generateDailySentences, playTTS } from '../geminiService';
 
-const categories = ["Présentation", "Voyage", "Restaurant", "Urgences", "Vie quotidienne"];
+const categories = [
+  "self-intro", 
+  "daily-life", 
+  "transport", 
+  "travel", 
+  "food", 
+  "restaurant", 
+  "emergency", 
+  "cultural-exchange", 
+  "technology"
+];
+
+const categoryLabels: Record<string, string> = {
+  "self-intro": "Présentation",
+  "daily-life": "Vie quotidienne",
+  "transport": "Transport",
+  "travel": "Voyage",
+  "food": "Nourriture",
+  "restaurant": "Restaurant",
+  "emergency": "Urgence",
+  "cultural-exchange": "Échange culturel",
+  "technology": "Technologie"
+};
 
 const DailySentencesModule: React.FC = () => {
   const [selectedCategory, setSelectedCategory] = useState(categories[0]);
@@ -34,7 +56,7 @@ const DailySentencesModule: React.FC = () => {
               selectedCategory === cat ? 'bg-blue-600 text-white shadow-md' : 'bg-slate-100 text-slate-600'
             }`}
           >
-            {cat}
+            {categoryLabels[cat] || cat}
           </button>
         ))}
       </div>

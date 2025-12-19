@@ -3,6 +3,14 @@ import React, { useState, useEffect } from 'react';
 import { LanguageLevel, GrammarPoint } from '../types';
 import { generateGrammar, playTTS } from '../geminiService';
 
+const levelTopics: Record<LanguageLevel, string[]> = {
+  [LanguageLevel.A1]: ["Être", "Avoir", "Articles"],
+  [LanguageLevel.A2]: ["Passé Composé", "Aller"],
+  [LanguageLevel.B1]: ["Imparfait", "Conditionnel"],
+  [LanguageLevel.B2]: ["Subjonctif", "Connecteurs"],
+  [LanguageLevel.C1]: ["Passé Simple", "Nuances formelles"]
+};
+
 const GrammarModule: React.FC<{ level: LanguageLevel }> = ({ level }) => {
   const [points, setPoints] = useState<GrammarPoint[]>([]);
   const [loading, setLoading] = useState(true);
@@ -10,7 +18,8 @@ const GrammarModule: React.FC<{ level: LanguageLevel }> = ({ level }) => {
   const fetchGrammar = async () => {
     setLoading(true);
     try {
-      const data = await generateGrammar(level);
+      const topics = levelTopics[level].join(", ");
+      const data = await generateGrammar(level, topics);
       setPoints(data);
     } catch (e) { console.error(e); }
     finally { setLoading(false); }
