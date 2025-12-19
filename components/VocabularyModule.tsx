@@ -138,6 +138,136 @@ const PREDEFINED_A1_WORDS: Omit<VocabularyWord, 'id' | 'level' | 'known' | 'isSt
         audioUrl: "https://ttsreader.com/player/mp3?text=La%20voiture%20est%20rouge.&lang=fr"
       }
     ]
+  },
+  {
+    word: "livre",
+    phonetic: "livʁ",
+    meaning: "书",
+    audioUrl: "https://ttsreader.com/player/mp3?text=livre&lang=fr",
+    examples: [
+      { 
+        sentence: "Je lis un livre intéressant.", 
+        translation: "我在读一本有趣的书。",
+        audioUrl: "https://ttsreader.com/player/mp3?text=Je%20lis%20un%20livre%20intéressant.&lang=fr"
+      }
+    ]
+  },
+  {
+    word: "école",
+    phonetic: "e.kɔl",
+    meaning: "学校",
+    audioUrl: "https://ttsreader.com/player/mp3?text=école&lang=fr",
+    examples: [
+      { 
+        sentence: "Les enfants vont à l'école.", 
+        translation: "孩子们去上学。",
+        audioUrl: "https://ttsreader.com/player/mp3?text=Les%20enfants%20vont%20à%20l'école.&lang=fr"
+      }
+    ]
+  },
+  {
+    word: "ami",
+    phonetic: "a.mi",
+    meaning: "朋友",
+    audioUrl: "https://ttsreader.com/player/mp3?text=ami&lang=fr",
+    examples: [
+      { 
+        sentence: "Mon ami est gentil.", 
+        translation: "我的朋友很友好。",
+        audioUrl: "https://ttsreader.com/player/mp3?text=Mon%20ami%20est%20gentil.&lang=fr"
+      }
+    ]
+  },
+  {
+    word: "fleur",
+    phonetic: "flœʁ",
+    meaning: "花",
+    audioUrl: "https://ttsreader.com/player/mp3?text=fleur&lang=fr",
+    examples: [
+      { 
+        sentence: "La fleur est jolie.", 
+        translation: "这朵花很漂亮。",
+        audioUrl: "https://ttsreader.com/player/mp3?text=La%20fleur%20est%20jolie.&lang=fr"
+      }
+    ]
+  },
+  {
+    word: "soleil",
+    phonetic: "sɔ.lɛj",
+    meaning: "太阳",
+    audioUrl: "https://ttsreader.com/player/mp3?text=soleil&lang=fr",
+    examples: [
+      { 
+        sentence: "Le soleil brille aujourd'hui.", 
+        translation: "今天太阳很亮。",
+        audioUrl: "https://ttsreader.com/player/mp3?text=Le%20soleil%20brille%20aujourd'hui.&lang=fr"
+      }
+    ]
+  },
+  {
+    word: "lune",
+    phonetic: "lyn",
+    meaning: "月亮",
+    audioUrl: "https://ttsreader.com/player/mp3?text=lune&lang=fr",
+    examples: [
+      { 
+        sentence: "La lune est pleine ce soir.", 
+        translation: "今晚月亮很圆。",
+        audioUrl: "https://ttsreader.com/player/mp3?text=La%20lune%20est%20pleine%20ce%20soir.&lang=fr"
+      }
+    ]
+  },
+  {
+    word: "ville",
+    phonetic: "vil",
+    meaning: "城市",
+    audioUrl: "https://ttsreader.com/player/mp3?text=ville&lang=fr",
+    examples: [
+      { 
+        sentence: "Paris est une belle ville.", 
+        translation: "巴黎是一个美丽的城市。",
+        audioUrl: "https://ttsreader.com/player/mp3?text=Paris%20est%20une%20belle%20ville.&lang=fr"
+      }
+    ]
+  },
+  {
+    word: "restaurant",
+    phonetic: "ʁɛs.to.ʁɑ̃",
+    meaning: "餐厅",
+    audioUrl: "https://ttsreader.com/player/mp3?text=restaurant&lang=fr",
+    examples: [
+      { 
+        sentence: "Nous allons au restaurant ce soir.", 
+        translation: "我们今晚去餐厅。",
+        audioUrl: "https://ttsreader.com/player/mp3?text=Nous%20allons%20au%20restaurant%20ce%20soir.&lang=fr"
+      }
+    ]
+  },
+  {
+    word: "train",
+    phonetic: "tʁɛ̃",
+    meaning: "火车",
+    audioUrl: "https://ttsreader.com/player/mp3?text=train&lang=fr",
+    examples: [
+      { 
+        sentence: "Le train arrive à 18 heures.", 
+        translation: "火车在18点到。",
+        audioUrl: "https://ttsreader.com/player/mp3?text=Le%20train%20arrive%20à%2018%20heures.&lang=fr"
+      }
+    ]
+  },
+  {
+    word: "ordinateur",
+    phonetic: "ɔʁ.di.na.tœʁ",
+    meaning: "电脑",
+    audioUrl: "https://ttsreader.com/player/mp3?text=ordinateur&lang=fr",
+    examples: [
+      { 
+        sentence: "J'allume mon ordinateur.", 
+        translation: "我打开我的电脑。",
+        audioUrl: "https://ttsreader.com/player/mp3?text=J'allume%20mon%20ordinateur.&lang=fr"
+      }
+    ]
   }
 ];
 
