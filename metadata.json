@@ -1,0 +1,7 @@
+{
+  "name": "L'Élan Français - French Learning App",
+  "description": "A comprehensive AI-powered French learning application featuring vocabulary, daily phrases, grammar, reading comprehension, and interactive testing.",
+  "requestFramePermissions": [
+    "microphone"
+  ]
+}
